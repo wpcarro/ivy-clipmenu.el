@@ -1,5 +1,11 @@
 ;;; ivy-clipmenu.el --- Emacs client for clipmenu -*- lexical-binding: t -*-
+
 ;; Author: William Carroll <wpcarro@gmail.com>
+;; URL: https://github.com/wpcarro/ivy-clipmenu.el
+;; Version: 0.0.1
+;; Package-Requires: ((emacs "24") (emacs "25.1") (f "0.20.0") (s "1.12.0") (dash "2.16.0") (ivy "0.13.0"))
+
+;; This file is NOT part of GNU Emacs.
 
 ;;; Commentary:
 ;; Ivy integration with the clipboard manager, clipmenu.  Essentially, clipmenu
@@ -11,7 +17,7 @@
 ;;
 ;; This module intentionally does not define any keybindings since I'd prefer
 ;; not to presume my users' preferences.  Personally, I use EXWM as my window
-;; manager, so I call `exwm-input-set-key' and map it to `ivy-clipmenu/copy'.
+;; manager, so I call `exwm-input-set-key' and map it to `ivy-clipmenu-copy'.
 ;;
 ;; Usually clipmenu integrates with rofi or dmenu.  This Emacs module integrates
 ;; with ivy.  Launch this when you want to select a clip.
@@ -44,7 +50,7 @@
   "Ivy integration for clipmenu."
   :group 'ivy)
 
-(defcustom ivy-clipmenu/directory
+(defcustom ivy-clipmenu-directory
   (or (getenv "XDG_RUNTIME_DIR")
       (getenv "TMPDIR")
       "/tmp")
@@ -52,52 +58,52 @@
   :type 'string
   :group 'ivy-clipmenu)
 
-(defconst ivy-clipmenu/executable-version 5
+(defconst ivy-clipmenu-executable-version 5
    "The major version number for the clipmenu executable.")
 
-(defconst ivy-clipmenu/cache-directory
-  (f-join ivy-clipmenu/directory
+(defconst ivy-clipmenu-cache-directory
+  (f-join ivy-clipmenu-directory
           (format "clipmenu.%s.%s"
-                  ivy-clipmenu/executable-version
+                  ivy-clipmenu-executable-version
                   (getenv "USER")))
   "Directory where the clips are stored.")
 
-(defconst ivy-clipmenu/cache-file-pattern
-  (f-join ivy-clipmenu/cache-directory "line_cache_*")
+(defconst ivy-clipmenu-cache-file-pattern
+  (f-join ivy-clipmenu-cache-directory "line_cache_*")
   "Glob pattern matching the locations on disk for clipmenu's labels.")
 
-(defcustom ivy-clipmenu/history-length
+(defcustom ivy-clipmenu-history-length
   (or (getenv "CM_HISTLENGTH") 25)
   "Limit the number of clips in the history.
 This value defaults to 25.")
 
-(defvar ivy-clipmenu/history nil
-  "History for `ivy-clipmenu/copy'.")
+(defvar ivy-clipmenu-history nil
+  "History for `ivy-clipmenu-copy'.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun ivy-clipmenu/parse-content (x)
+(defun ivy-clipmenu--parse-content (x)
   "Parse the label from the entry, X, in clipmenu's line-cache."
   (->> (s-split " " x)
        (-drop 1)
        (s-join " ")))
 
-(defun ivy-clipmenu/list-clips ()
+(defun ivy-clipmenu--list-clips ()
   "Return a list of the content of all of the clips."
-  (->> ivy-clipmenu/cache-file-pattern
+  (->> ivy-clipmenu-cache-file-pattern
        f-glob
        (-map (lambda (path)
                (s-split "\n" (f-read path) t)))
        -flatten
        (-reject #'s-blank?)
        (-sort #'string>)
-       (-map #'ivy-clipmenu/parse-content)
+       (-map #'ivy-clipmenu--parse-content)
        delete-dups
-       (-take ivy-clipmenu/history-length)))
+       (-take ivy-clipmenu-history-length)))
 
-(defun ivy-clipmenu/checksum (content)
+(defun ivy-clipmenu--checksum (content)
   "Return the CRC checksum of CONTENT."
   (s-trim-right
    (with-temp-buffer
@@ -105,30 +111,30 @@ This value defaults to 25.")
                    (format "cksum <<<'%s'" content))
      (buffer-string))))
 
-(defun ivy-clipmenu/line-to-content (line)
+(defun ivy-clipmenu--line-to-content (line)
   "Map the chosen LINE from the line cache its content from disk."
   (->> line
-       ivy-clipmenu/checksum
-       (f-join ivy-clipmenu/cache-directory)
+       ivy-clipmenu--checksum
+       (f-join ivy-clipmenu-cache-directory)
        f-read))
 
-(defun ivy-clipmenu/do-copy (x)
+(defun ivy-clipmenu--do-copy (x)
   "Copy string, X, to the system clipboard."
   (kill-new x)
   (message "[ivy-clipmenu.el] Copied!"))
 
-(defun ivy-clipmenu/copy ()
+(defun ivy-clipmenu-copy ()
   "Use `ivy-read' to select and copy a clip.
 It's recommended to bind this function to a globally available keymap."
   (interactive)
   (let ((ivy-sort-functions-alist nil))
     (ivy-read "Clipmenu: "
-              (ivy-clipmenu/list-clips)
-              :history 'ivy-clipmenu/history
+              (ivy-clipmenu--list-clips)
+              :history 'ivy-clipmenu-history
               :action (lambda (line)
                         (->> line
-                             ivy-clipmenu/line-to-content
-                             ivy-clipmenu/do-copy)))))
+                             ivy-clipmenu--line-to-content
+                             ivy-clipmenu--do-copy)))))
 
 (provide 'ivy-clipmenu)
 ;;; ivy-clipmenu.el ends here

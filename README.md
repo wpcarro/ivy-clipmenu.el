@@ -32,11 +32,11 @@ This module intentionally does not define any keybindings since I'd prefer
 not to presume my users' preferences. Personally, I use
 [EXWM](https://github.com/ch11ng/exwm)
 as my window manager, so I call `exwm-input-set-key` and map it to
-`ivy-clipmenu/copy`. Your setup may look something like this:
+`ivy-clipmenu-copy`. Your setup may look something like this:
 
 ```elisp
 (require 'ivy-clipmenu)
-(global-set-key (kbd "C-M-v") #'ivy-clipmenu/copy)
+(global-set-key (kbd "C-M-v") #'ivy-clipmenu-copy)
 ```
 
 Clipmenu itself supports a variety of environment variables that allow you to
