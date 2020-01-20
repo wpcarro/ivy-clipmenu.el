@@ -1,4 +1,4 @@
-;;; ivy-clipmenu.el --- Emacs client for clipmenu -*- lexical-binding: t -*-
+;;; ivy-clipmenu.el --- Ivy client for clipmenu -*- lexical-binding: t -*-
 
 ;; Author: William Carroll <wpcarro@gmail.com>
 ;; URL: https://github.com/wpcarro/ivy-clipmenu.el
