@@ -75,7 +75,9 @@
 (defcustom ivy-clipmenu-history-length
   (or (getenv "CM_HISTLENGTH") 25)
   "Limit the number of clips in the history.
-This value defaults to 25.")
+This value defaults to 25."
+  :type 'integer
+  :group 'ivy-clipmenu)
 
 (defvar ivy-clipmenu-history nil
   "History for `ivy-clipmenu-copy'.")
