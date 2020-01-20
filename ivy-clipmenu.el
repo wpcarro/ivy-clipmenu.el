@@ -3,7 +3,7 @@
 ;; Author: William Carroll <wpcarro@gmail.com>
 ;; URL: https://github.com/wpcarro/ivy-clipmenu.el
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "24") (emacs "25.1") (f "0.20.0") (s "1.12.0") (dash "2.16.0") (ivy "0.13.0"))
+;; Package-Requires: ((emacs "26.1") (f "0.20.0") (s "1.12.0") (dash "2.16.0") (ivy "0.13.0"))
 
 ;; This file is NOT part of GNU Emacs.
 
