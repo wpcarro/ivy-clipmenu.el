@@ -53,7 +53,7 @@
 (defcustom ivy-clipmenu-directory
   (or (getenv "XDG_RUNTIME_DIR")
       (getenv "TMPDIR")
-      "/tmp")
+      (temporary-file-directory))
   "Base directory for clipmenu's data."
   :type 'string
   :group 'ivy-clipmenu)
