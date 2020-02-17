@@ -35,7 +35,7 @@
 ;;
 ;; To use this module, you must first install clipmenu and ensure that the
 ;; clipmenud daemon is running.  Refer to the installation instructions at
-;; github.com/cdown/clipmenu for those details.
+;; https://github.com/cdown/clipmenu for those details.
 ;;
 ;; This module intentionally does not define any keybindings since I'd prefer
 ;; not to presume my users' preferences.  Personally, I use EXWM as my window
