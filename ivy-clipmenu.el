@@ -132,7 +132,7 @@ This value defaults to 25."
   (s-trim-right
    (with-temp-buffer
      (call-process "/bin/bash" nil (current-buffer) nil "-c"
-                   (format "cksum <<<'%s'" content))
+                   (format "cksum <<<'%s'" (shell-quote-argument content)))
      (buffer-string))))
 
 (defun ivy-clipmenu--line-to-content (line)
