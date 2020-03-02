@@ -1,5 +1,7 @@
 # ivy-clipmenu.el
 
+[![MELPA](https://melpa.org/packages/ivy-clipmenu-badge.svg)](https://melpa.org/#/ivy-clipmenu)
+
 [Ivy](https://github.com/abo-abo/swiper#ivy) integration with the clipboard manager, [clipmenu](https://github.com/cdown/clipmenu).
 
 ![ivy-clipmenu in action][1]
