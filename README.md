@@ -2,6 +2,8 @@
 
 [Ivy](https://github.com/abo-abo/swiper#ivy) integration with the clipboard manager, [clipmenu](https://github.com/cdown/clipmenu).
 
+![ivy-clipmenu in action][1]
+
 Usually `clipmenu` integrates with `rofi` or `dmenu`. This Emacs module
 integrates with `ivy`. Launch this when you want to select a clip.
 
@@ -47,3 +49,5 @@ variables defined in this module.
 For more information:
 - See `clipmenu --help`.
 - Visit github.com/cdown/clipmenu.
+
+[1]: ./screenshots/ivy-clipmenu.png
