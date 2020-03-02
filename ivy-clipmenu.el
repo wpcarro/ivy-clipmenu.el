@@ -131,7 +131,7 @@ This value defaults to 25."
   "Return the CRC checksum of CONTENT."
   (s-trim-right
    (with-temp-buffer
-     (call-process "/bin/bash" nil (current-buffer) nil "-c"
+     (call-process "bash" nil (current-buffer) nil "-c"
                    (format "cksum <<<'%s'" (shell-quote-argument content)))
      (buffer-string))))
 
