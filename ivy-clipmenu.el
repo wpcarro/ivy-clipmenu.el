@@ -81,7 +81,7 @@
   :type 'string
   :group 'ivy-clipmenu)
 
-(defconst ivy-clipmenu-executable-version 5
+(defconst ivy-clipmenu-executable-version 6
    "The major version number for the clipmenu executable.")
 
 (defconst ivy-clipmenu-cache-directory
@@ -92,7 +92,7 @@
   "Directory where the clips are stored.")
 
 (defconst ivy-clipmenu-cache-file-pattern
-  (f-join ivy-clipmenu-cache-directory "line_cache_*")
+  (f-join ivy-clipmenu-cache-directory "line_cache*")
   "Glob pattern matching the locations on disk for clipmenu's labels.")
 
 (defcustom ivy-clipmenu-history-length
