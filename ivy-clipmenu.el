@@ -81,19 +81,10 @@
   :type 'string
   :group 'ivy-clipmenu)
 
-(defconst ivy-clipmenu-executable-version 6
-   "The major version number for the clipmenu executable.")
-
-(defconst ivy-clipmenu-cache-directory
-  (f-join ivy-clipmenu-directory
-          (format "clipmenu.%s.%s"
-                  ivy-clipmenu-executable-version
-                  (getenv "USER")))
-  "Directory where the clips are stored.")
-
-(defconst ivy-clipmenu-cache-file-pattern
-  (f-join ivy-clipmenu-cache-directory "line_cache*")
-  "Glob pattern matching the locations on disk for clipmenu's labels.")
+(defcustom ivy-clipmenu-executable-version 6
+  "The major version number for the clipmenu executable."
+  :type 'integer
+  :group 'ivy-clipmenu)
 
 (defcustom ivy-clipmenu-history-length
   (or (getenv "CM_HISTLENGTH") 25)
@@ -115,9 +106,18 @@ This value defaults to 25."
        (-drop 1)
        (s-join " ")))
 
+;; NOTE: This should be a function to recompute its value when
+;; a user updates `ivy-clipmenu-executable-version'.
+(defun ivy-clipmenu--cache-directory ()
+  "Directory where the clips are stored."
+  (f-join ivy-clipmenu-directory
+          (format "clipmenu.%s.%s"
+                  ivy-clipmenu-executable-version
+                  (getenv "USER"))))
+
 (defun ivy-clipmenu--list-clips ()
   "Return a list of the content of all of the clips."
-  (->> ivy-clipmenu-cache-file-pattern
+  (->> (f-join (ivy-clipmenu--cache-directory) "line_cache*")
        f-glob
        (-map (lambda (path)
                (s-split "\n" (f-read path) t)))
@@ -140,7 +140,7 @@ This value defaults to 25."
   "Map the chosen LINE from the line cache its content from disk."
   (->> line
        ivy-clipmenu--checksum
-       (f-join ivy-clipmenu-cache-directory)
+       (f-join (ivy-clipmenu--cache-directory))
        f-read))
 
 (defun ivy-clipmenu--do-copy (x)
